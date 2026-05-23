@@ -4,9 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SARMVIA</title>
+    <link rel="stylesheet" href="{{url_for ('static', filename='css/style.css') }}">
 </head>
 <body>
-    <H1>Welcome to SARMVIA</H1>
-    <p>Smart Academic Result Management And Verification with AI Prediction</p>
+
+      <!-----NAVBAR---->
+     <nav class="navbar">
+        <div class="navbar_logo">SARMVIA</div>
+        <div class="navbar_links">
+            <a class="navbar_link" href="#">Home</a>
+            <a class="navbar_link" href="#">About</a>
+            <a class="navbar_link navbar_link--btn" href="#" class="btn-login">Login</a>
+        </div>    
+     </nav>
+
+      <!-----HERO ---->
+     <section class="hero">
+        <h1 class="hero_title">Smart Academic Result Management and Verification</h1>
+        <p class="hero_subtitle">Manage, verify and predict academic performance with the power of AI</p>
+        <a class="hero_btn" href="#" class="btn-primary">Get Started</a>
+     </section>
+
+      <!-----FEATURES ---->
+     <section class="features">
+        <div class="feature-card">
+            <h3 class="feature-card_title">Result Management</h3>
+            <p class="feature-card_text">Easily upload and manage student results across all semesters</p>
+        </div>
+        <div class="feature-card">
+            <h3 class="feature-card_title">Verification</h3>
+            <p class="feature-card_text">Authenticate result authenticity with unique QR codes</p>
+        </div>
+        <div class="feature-card">
+            <h3 class="feature-card_title">AI Prediction</h3>
+            <p class="feature-card_text">Predict student performance using advanced AI technology</p>
+        </div>
+        <div class="feature-card">
+            <h3 class="feature-card_title">GP Calculator</h3>
+            <p class="feature-card_text">Calculate and plan your GPA across semesters intelligently</p>
+        </div>
+     </section>
+
+     <!-----FOOTER---->
+     <footer class="footer">
+        <p class="footer_text">&copy; 2026 SARMVIA. All rights reserved.</p>
+     </footer>
 </body>
 </html>
