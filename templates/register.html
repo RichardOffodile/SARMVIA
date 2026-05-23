@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARMVIA - Register</title>
+    <link rel="stylesheet" href="{{url_for ('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+</head>
+<body>
+    
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar_logo">SARMVIA</div>
+        <div class="navbar_links">
+            <a href="/" class="navbar_link">Home</a>
+            <a href="/login" class="navbar_link navbar_link--btn">Login</a>
+        </div>
+    </nav>
+
+    <!-- REGISTER SECTION -->
+    <section class="auth">
+        <div class="auth_card">
+            <h2 class="auth_title">Create Account</h2>
+            <p class="auth_subtitle">Register for your SARMVIA account</p>
+
+            <div class="auth_form">
+
+                <div class="auth_field">
+                    <label class="auth_label" for="fullname">Full Name</label>
+                    <input class="auth_input" type="text" id="fullname" placeholer="Enter full name">
+                </div>
+
+                <div class="auth_field">
+                    <label for="role" class="auth_label">Register As</label>
+                    <select name="role" id="role" onchange="toggleFields()" class="auth_input auth_select">
+                        <option value="">Select Role</option>
+                        <option value="student">Student</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <!--STUDENT FIELDS-->
+                <div class="auth_field" id="matric-field" style="display: none;">
+                    <label class="auth_label" for="matric">Matric Number</label>
+                    <input class="auth_input" type="text" id="department" placeholer="Enter your matric number">
+                </div>
+
+                <div class="auth_field" id="department-field" style="display: none;">
+                    <label class="auth_label" for="department">Department</label>
+                    <input class="auth_input" type="text" id="department" placeholer="Enter your department">
+                </div>
+
+                <div class="auth_field" id="faculty-field" style="display: none;">
+                    <label class="auth_label" for="faculty">Faculty</label>
+                    <input class="auth_input" type="text" id="faculty" placeholer="Enter your faculty">
+                </div>
+
+                <div class="auth_field" id="level-field" style="display: none;">
+                    <label class="auth_label" for="level">Level</label>
+                    <select name="level" id="level" class="auth_input auth_select">
+                        <option value="">Select Level</option>
+                        <option value="100">100 Level</option>
+                        <option value="200">200 Level</option>
+                        <option value="300">300 Level</option>
+                        <option value="400">400 Level</option>
+                        <option value="500">500 Level</option>
+                    </select>
+                </div>
+
+                <!--ADMIN FIELDS-->
+                <div class="auth_field" id="admin-code-field" style="display: none;">
+                    <label for="admin-code" class="auth_label">Admin Code</label>
+                    <input type="password" id="admin-code" placeholer="Enter admin code" class="auth_input">
+                </div>
+
+                <!--SHARED FIELDS-->
+                <div class="auth_field">
+                    <label for="email" class="auth_label">Email Address</label>
+                    <input type="email" id="email" placeholer="Enter your email" class="auth_input">
+                </div>
+                
+                <div class="auth_field">
+                    <label for="password" class="auth_label">Password</label>
+                    <input type="password" id="password" placeholer="Create a password" class="auth_input">
+                </div>
+
+                <div class="auth_field">
+                    <label for="confirm-password" class="auth_label">Confirm your password</label>
+                    <input type="password" id="confirm-password" placeholer="Confirm your password" class="auth_input">
+                </div>
+
+                <button class="auth_btn">Register</button>
+                <p class="auth_footer">Already have an account? <a href="/login" class="auth_link">Login</a></p>
+
+            </div>
+        </div>
+    </section>
+
+    <!--FOOTER-->
+    <footer class="footer">
+        <p class="footer_text">&copy; 2026 SARMVIA. All rights reserved</p>
+    </footer>
+
+    <script src="{{url_for('static', filename='js/register.js') }}"></script>
+</body>
+</html>

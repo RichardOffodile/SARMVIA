@@ -4,21 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SARMVIA - Login</title>
-    <link rel="stylesheet" href="{{url_for ('static', filename='css/base.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/auth.css') }}">
 </head>
 <body>
-    
-    <!---- NAVBAR ---->
-    <nav class="navbar">
+    <!-- NAVBAR -->
+     <nav class="navbar">
         <div class="navbar_logo">SARMVIA</div>
         <div class="navbar_links">
             <a href="#" class="navbar_link">Home</a>
             <a href="#" class="navbar_link">About</a>
         </div>
-    </nav>
+     </nav>
 
-    <!---- LOGIN SECTION ---->
+     <!-- LOGIN SECTION -->
+      <section class="auth">
+        <div class="auth_card">
+            <h2 class="auth_title">Welcome Back</h2>
+            <p class="auth_subtitle">Login to your SARMVIA account</p>
+
+            <div class="auth_form">
+
+                <div class="auth_field">
+                    <label for="role" class="auth_label">Login As</label>
+                    <select onchange="toggleLoginFields()" id="role" class="auth_input auth_select">
+                        <option value="">Select Role</option>
+                        <option value="student">Student</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <!--STUDENT FIELD-->
+                <div class="auth_field" id="matric-field" style="display:none;">
+                    <label for="matric" class="auth_label">Matric Number</label>
+                    <input type="text" id="matric" placeholer="Enter your matric number" class="auth_input">
+                </div>
+
+                <!--ADMIN FIELD-->
+                <div class="auth_field" id="email-field" style="display:none;">
+                    <label for="email" class="auth_label">Email Address</label>
+                    <input type="email" id="email" placeholer="Enter your email address" class="auth_input">
+                </div>
+
+                <!--SHARED-->
+                <div class="auth_field" id="password-field" style="display:none;">
+                    <label for="password" class="auth_label">Password</label>
+                    <input type="password" id="password" placeholer="Enter your password" class="auth_input">
+                </div>
+
+                <div class="auth_field" id="forgot-field" style="display:none;">
+                    <p class="auth_footer">Forgot your password? <a href="#" class="auth_link">Reset Password</a></p>
+                </div>
+
+                <button class="auth_btn" id="login-btn" style="display:none;">Login</button>
+                <p class="auth_footer">Don't have an account? <a href="/register" class="auth_link">Register</a></p>
+
+            </div>
+        </div>
+      </section>
+
+      <!--FOOTER-->
+      <footer class="footer">
+        <p class="footer_text">&copy; 2026 SARMVIA. All rights reserved</p>
+      </footer>
+
+    <script src="{{url_for('static', filename='js/login.js') }}"></script>
 
 </body>
 </html>
