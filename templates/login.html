@@ -27,7 +27,7 @@
 
                 <div class="auth_field">
                     <label for="role" class="auth_label">Login As</label>
-                    <select onchange="toggleLoginFields()" id="role" class="auth_input auth_select">
+                    <select onchange="toggleLoginFields()" autocomplete="off" id="role" class="auth_input auth_select">
                         <option value="">Select Role</option>
                         <option value="student">Student</option>
                         <option value="admin">Admin</option>
@@ -37,19 +37,22 @@
                 <!--STUDENT FIELD-->
                 <div class="auth_field" id="matric-field" style="display:none;">
                     <label for="matric" class="auth_label">Matric Number</label>
-                    <input type="text" id="matric" placeholer="Enter your matric number" class="auth_input">
+                    <input type="text" id="matric" placeholder="e.g CS/2022/1268" class="auth_input">
+                    <span class="auth_error" id="matric-error" style="display:none;">Invalid matric number format</span>
                 </div>
 
                 <!--ADMIN FIELD-->
                 <div class="auth_field" id="email-field" style="display:none;">
                     <label for="email" class="auth_label">Email Address</label>
-                    <input type="email" id="email" placeholer="Enter your email address" class="auth_input">
+                    <input type="email" id="email" placeholder="Enter your email address" class="auth_input">
+                    <span class="auth_error" id="email-error" style="display:none;">Invalid email address</span>
+
                 </div>
 
                 <!--SHARED-->
                 <div class="auth_field" id="password-field" style="display:none;">
                     <label for="password" class="auth_label">Password</label>
-                    <input type="password" id="password" placeholer="Enter your password" class="auth_input">
+                    <input type="password" id="password" placeholder="Enter your password" class="auth_input">
                 </div>
 
                 <div class="auth_field" id="forgot-field" style="display:none;">
