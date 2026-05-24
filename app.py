@@ -20,9 +20,6 @@ def get_db():
 def home():
     return render_template('index.html')
 
-@app.route('/login')
-def login():
-    return render_template('login.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -75,6 +72,63 @@ def register():
                 db.close()
 
     return render_template('register.html')  
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        role = request.form.get('role')
+        password = request.form.get('password')
+        matric_number = request.form.get('matric_number')
+        email = request.form.get('email')
+
+        db = None
+        cursor = None
+
+        try:
+            db = get_db()
+            cursor = db.cursor()
+
+            if role == 'student':
+                cursor.execute('SELECT * FROM users WHERE matric_number = %s AND `role` = %s', (matric_number, role))
+            else:
+                cursor.execute('SELECT * FROM users WHERE email = %s AND `role` = %s', (email, role))
+
+            user = cursor.fetchone()
+
+            if user and bcrypt.check_password_hash(user['password'], password):
+                session['user_id'] = user['id']
+                session['role'] = user['role']
+                session['full_name'] = user['full_name']
+                flash('Login successful!', 'success')
+
+                if role == 'student':
+                    return redirect(url_for('student_dashboard'))
+                else:
+                    return redirect(url_for('admin_dashboard'))
+            else:
+                flash('Invalid credentials. Please try again', 'error')
+                return redirect(url_for('login'))
+            
+        except Exception as e:
+            flash(f'Login failed: {str(e)}', 'error')
+            return redirect(url_for('login'))
+        
+        finally:
+            if cursor:
+                cursor.close()
+            if db:
+                db.close()
+    return render_template('login.html')
+
+
+@app.route('/student-dashboard')
+def student_dashboard():
+    return 'Student Dashboard Coming Soon!'
+
+
+@app.route('/admin-dashboard')
+def admin_dashboard():
+    return 'Admin dashboard Coming Soon!'
 
 if __name__ == '__main__':
     app.run(debug=True)
