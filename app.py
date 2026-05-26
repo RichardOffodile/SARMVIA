@@ -123,12 +123,18 @@ def login():
 
 @app.route('/student-dashboard')
 def student_dashboard():
-    return 'Student Dashboard Coming Soon!'
+    return render_template('student_dashboard.html')
 
 
 @app.route('/admin-dashboard')
 def admin_dashboard():
     return 'Admin dashboard Coming Soon!'
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)
