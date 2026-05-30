@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARMVIA - Manage Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar__brand">
+            <h1 class="sidebar__logo">SARMVIA</h1>
+            <p class="sidebar__sub">Admin Portal</p>
+        </div>
+        <ul class="sidebar__menu">
+            <li class="sidebar__item">
+                <a href="/admin-dashboard" class="sidebar__link">
+                    <span class="sidebar__icon">&#9671;</span>
+                    Dashboard
+                </a>
+            </li>
+            <li class="sidebar__item sidebar__item--active">
+                <a href="/manage-results" class="sidebar__link">
+                    <span class="sidebar__icon">&#9776;</span>
+                    Manage Results
+                </a>
+            </li>
+            <li class="sidebar__item">
+                <a href="/manage-students" class="sidebar__link">
+                    <span class="sidebar__icon">&#9737;</span>
+                    Manage Students
+                </a>
+            </li>
+            <li class="sidebar__item">
+                <a href="/verify-result" class="sidebar__link">
+                    <span class="sidebar__icon">&#10003;</span>
+                    Verify Result
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar__footer">
+            <p class="sidebar__session">2024/2025</p>
+            <a href="/logout" class="sidebar__logout">Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash flash--{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="topbar">
+            <div class="topbar__left">
+                <h1 class="topbar__title">Manage Results</h1>
+                <div class="topbar__underline"></div>
+            </div>
+            <div class="topbar__right">
+                <p class="topbar__welcome">Welcome back, <strong>{{ session['full_name'] }}</strong></p>
+            </div>
+        </div>
+
+        <!-- TABS -->
+        <div class="calc__tabs">
+            <button id="tab-manual" onclick="switchTab('manual')" class="calc__tab calc__tab--active">Manual Entry</button>
+            <button id="tab-upload" onclick="switchTab('upload')" class="calc__tab">Excel Upload</button>
+        </div>
+
+        <!-- MANUAL ENTRY TAB -->
+        <div id="panel-manual" class="calc__panel">
+            <div class="admin__card">
+                <h3 class="admin__card-title">Enter Student Result</h3>
+                <p class="admin__card-sub">Manually enter a student's course result</p>
+
+                <form method="POST" action="/add-result">
+                    <div class="admin__form">
+                        <div class="admin__field">
+                            <label class="admin__label">Student Matric Number</label>
+                            <input type="text" name="matric_number" placeholder="e.g CS/2022/001" class="admin__input">
+                        </div>
+                        <div class="admin__field">
+                            <label class="admin__label">Course Name</label>
+                            <input type="text" name="course_name" placeholder="e.g Mathematics" class="admin__input">
+                        </div>
+                        <div class="admin__field">
+                            <label class="admin__label">Course Code</label>
+                            <input type="text" name="course_code" placeholder="e.g MTH101" class="admin__input">
+                        </div>
+                        <div class="admin__field">
+                            <label class="admin__label">Credit Unit</label>
+                            <input type="number" name="credit_unit" min="1" max="6" placeholder="e.g 3" class="admin__input">
+                        </div>
+                        <div class="admin__field">
+                            <label class="admin__label">Score</label>
+                            <input type="number" name="score" min="0" max="100" placeholder="e.g 75" class="admin__input">
+                        </div>
+                        <div class="admin__field">
+                            <label class="admin__label">Semester</label>
+                            <select name="semester" class="admin__input admin__select">
+                                <option value="first">First Semester</option>
+                                <option value="second">Second Semester</option>
+                            </select>
+                        </div>
+                        <div class="admin__field">
+                            <label class="admin__label">Level</label>
+                            <select name="level" class="admin__input admin__select">
+                                <option value="100">100 Level</option>
+                                <option value="200">200 Level</option>
+                                <option value="300">300 Level</option>
+                                <option value="400">400 Level</option>
+                                <option value="500">500 Level</option>
+                            </select>
+                        </div>
+                        <div class="admin__field">
+                            <label class="admin__label">Session</label>
+                            <input type="text" name="session" placeholder="e.g 2024/2025" class="admin__input">
+                        </div>
+                        <div class="admin__field">
+                            <label class="admin__label">Is Carryover?</label>
+                            <select name="is_carryover" class="admin__input admin__select">
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="admin__btn">Add Result</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- EXCEL UPLOAD TAB -->
+        <div id="panel-upload" class="calc__panel" style="display:none;">
+            <div class="admin__card">
+                <h3 class="admin__card-title">Upload Results via Excel</h3>
+                <p class="admin__card-sub">Upload multiple results at once using an Excel file</p>
+
+                <form method="POST" action="/upload-results" enctype="multipart/form-data">
+                    <div class="admin__upload" onclick="document.getElementById('excel-file').click()">
+                        <p class="admin__upload-text">Click to upload Excel file</p>
+                        <p class="admin__upload-sub">Supported format: .xlsx, .csv</p>
+                        <input type="file" id="excel-file" name="excel_file" accept=".xlsx,.csv" style="display:none;" onchange="updateFileName(this)">
+                    </div>
+                    <p id="file-name" style="color:#666666; font-size:13px; margin-bottom:15px;">No file selected</p>
+                    <a href="/download-template" class="admin__btn" style="margin-right:10px;">Download Template</a>
+                    <button type="submit" class="admin__btn">Upload Results</button>
+                </form>
+            </div>
+        </div>
+
+    </main>
+</div>
+<script>
+function switchTab(tab) {
+    document.getElementById('panel-manual').style.display = 'none';
+    document.getElementById('panel-upload').style.display = 'none';
+    document.getElementById('tab-manual').classList.remove('calc__tab--active');
+    document.getElementById('tab-upload').classList.remove('calc__tab--active');
+    document.getElementById('panel-' + tab).style.display = 'block';
+    document.getElementById('tab-' + tab).classList.add('calc__tab--active');
+}
+
+function updateFileName(input) {
+    const fileName = input.files[0] ? input.files[0].name : 'No file selected';
+    document.getElementById('file-name').textContent = fileName;
+}
+</script>
+</body>
+</html>;"+.m                             "

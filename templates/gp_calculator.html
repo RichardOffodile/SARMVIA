@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARMVIA - GP Calculator</title>
+    <link rel="stylesheet" href="{{  url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{  url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{  url_for('static', filename='css/calculator.css') }}">
+</head>
+<body>
+    
+
+    <div class="dashboard">
+
+        <!-- SIDEBAR -->
+         <aside class="sidebar">
+            <div class="sidebar_brand">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="SARMVIA" class="navbar_logo-img">
+                <p class="sidebar_sub">Student Portal</p>
+            </div>
+
+            <ul class="sidebar_menu">
+                <li class="sidebar_item">
+                    <a href="/student-dashboard" class="sidebar_link">
+                        <span class="sidebar_icon">&#9671;</span>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="sidebar_item">
+                    <a href="/student-dashboard" class="sidebar_link">
+                        <span class="sidebar_icon">&#9776;</span>
+                        My Results
+                    </a>
+                </li>
+                <li class="sidebar_item">
+                    <a href="/student-dashboard" class="sidebar_link">
+                        <span class="sidebar_icon">&#9737;</span>
+                        GP Calculator
+                    </a>
+                </li>
+                <li class="sidebar_item">
+                    <a href="/student-dashboard" class="sidebar_link">
+                        <span class="sidebar_icon">&#10022;</span>
+                        AI Prediction
+                    </a>
+                </li>
+                <li class="sidebar_item">
+                    <a href="/student-dashboard" class="sidebar_link">
+                        <span class="sidebar_icon">&#10003;</span>
+                        Verify Result
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar_footer">
+                <p class="sidebar_session">2025/2026</p>
+                <a href="/logout" class="sidebar_logout">Logout</a>
+            </div>
+         </aside>
+
+         <!-- MAIN CONTENT -->
+          <main class="main">
+
+            <!-- TOPBAR -->
+             <div class="topbar">
+                <div class="topbar_left">
+                    <h1 class="topbar_title">GP Calculator</h1>
+                    <div class="topbar_underline"></div>
+                </div>
+                <div class="topbar_right">
+                    <p class="topbar_welcome">Welcome back, <strong>{{ session['full_name'] }}</strong></p>
+                </div>
+             </div>
+
+             <!-- CALCULATOR TABS -->
+              <div class="calc_tabs">
+                <button class="calc_tab calc_tab--active" id="tab-semester" onclick="switchTab('semester')">Semester GP</button>
+                <button class="calc_tab" id="tab-target" onclick="switchTab('target')">Target Calculator</button>
+              </div>
+
+              <!-- SEMESTER GP TAB -->
+               <div class="calc_panel" id="panel-semester">
+                <div class="calc_card">
+                    <h3 class="calc_card-title">Calculate Your Semester GP</h3>
+                    <p class="calc_card-sub">"Add your courses for this semester"</p>
+
+                    <div class="calc_table-header">
+                        <span>Course Name</span>
+                        <span>Credit Unit</span>
+                        <span>Score</span>
+                        <span>Grade</span>
+                        <span>Grade Point</span>
+                        <span></span>
+                    </div>
+
+                    <div id="course-list"></div>
+
+                    <button class="calc_add-btn" onclick="addCourse()">+ Add Course</button>
+
+                    <div class="calc_result" id="semester-result" style="display:none;">
+                        <div class="calc_result-item">
+                            <p class="calc_result-label">SEMESTER GP</p>
+                            <h2 class="calc_result-value" id="semester-gp">0.00</h2>
+                        </div>
+                        <div class="calc_result-item">
+                            <p class="calc_result-label">TOTAL CREDITS</p>
+                            <h2 class="calc_result-value" id="total-credits">0</h2>
+                        </div>
+                        <div class="calc_result-item">
+                            <p class="calc_result-label">CLASS</p>
+                            <h2 class="calc_result-value" id="semester-class">N/A</h2>
+                        </div>
+                    </div>
+
+                    <button class="calc_btn" onclick="calculateSemesterGP()">Calculate GP</button>
+                </div>
+               </div>
+
+               <!-- TARGET CALCULATOR TAB -->
+                <div class="calc_panel" id="panel-target" style="display:none;">
+                    <div class="calc_card">
+                        <h3 class="calc_card-title">Target Class Calculator</h3>
+                        <p class="calc_card-sub">Find out what GP you need to raech your target class</p>
+
+                        <div class="calc_form">
+                            <div class="calc_field">
+                                <label class="calc_label">Current CGPA</label>
+                                <input type="number" step="0.01" min="0" max="5" placeholder="e.g 3.50" class="calc_input" id="current-cgpa">
+                            </div>
+                            <div class="calc_field">
+                                <label class="calc_label">Total Credits Completed</label>
+                                <input type="number" step="0.01" min="0" max="5" placeholder="e.g 60" class="calc_input" id="completed-credits">
+                            </div>
+                            <div class="calc_field">
+                                <label class="calc_label">Current Level</label>
+                                <select id="current-level" class="calc_input calc_select">
+                                    <option value="">Select Level</option>
+                                    <option value="100">100 Level</option>
+                                    <option value="200">200 Level</option>
+                                    <option value="300">300 Level</option>
+                                    <option value="400">400 Level</option>
+                                    <option value="500">500 Level</option>
+                                </select>
+                            </div>
+                            <div class="calc_field">
+                                <label class="calc_label">Target Class</label>
+                                <select id="target-class" class="calc_select calc_input">
+                                    <option value="4.50">First Class (4.50+)</option>
+                                    <option value="3.50">Second Class Upper (3.50+)</option>
+                                    <option value="2.40">Second Class Lower (2.40+)</option>
+                                    <option value="1.50">Third Class (1.50+)</option>
+                                </select>
+                            </div>
+                            <div class="calc_field">
+                                <label class="calc_label">Remaining Semesters</label>
+                                <input type="number" placeholder="e.g 4" class="calc_input" id="remaining-semesters">
+                            </div>
+
+                            <button class="calc_add-btn" type="button" onclick="generateSemesterFields()">Generate Semester Fields</button>
+
+                            <div id="semester-credits-list"></div>
+                        </div>
+
+                        <button class="calc_btn" onclick="calculateTarget()">Calculate Target</button>
+
+                        <div class="calc_target-result" id="target-result" style="display:none;"></div>
+                    </div>
+                </div>
+          </main>
+    </div> 
+    <script src="{{ url_for('static', filename='js/calculator.js') }}"></script>
+</body>
+</html>

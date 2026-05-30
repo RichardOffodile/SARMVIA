@@ -27,6 +27,11 @@ body {
     letter-spacing: 2px;
 }
 
+.navbar_logo-img {
+    height: 60px;
+    width: auto;
+}
+
 .navbar_links {
     display: flex;
     align-items: center;

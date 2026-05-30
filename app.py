@@ -125,16 +125,129 @@ def login():
 def student_dashboard():
     return render_template('student_dashboard.html')
 
-
-@app.route('/admin-dashboard')
-def admin_dashboard():
-    return 'Admin dashboard Coming Soon!'
-
 @app.route('/logout')
 def logout():
     session.clear()
     flash('You have been logged out.', 'success')
     return redirect(url_for('login'))
+
+@app.route('/gp-calculator')
+def gp_calculator():
+    return render_template('gp_calculator.html')
+
+@app.route('/admin-dashboard')
+def admin_dashboard():
+    db = None
+    cursor = None
+    try:
+        db = get_db()
+        cursor = db.cursor()
+
+        cursor.execute('SELECT COUNT(*) as count FROM users WHERE `role` = %s', ('student',))
+        total_students = cursor.fetchone()['count']
+
+        cursor.execute('SELECT COUNT(*) as count FROM results')
+        total_results = cursor.fetchone()['count']
+
+        cursor.execute('SELECT COUNT(*) as count FROM courses')
+        total_courses = cursor.fetchone()['count']
+
+        cursor.execute('SELECT * FROM users WHERE `role` = %s ORDER BY created_at DESC LIMIT 10', ('student',))
+        students = cursor.fetchall()
+
+        return render_template('admin_dashboard.html',
+                             total_students=total_students,
+                             total_results=total_results,
+                             total_courses=total_courses,
+                             students=students)
+    except Exception as e:
+        flash(f'Error: {str(e)}', 'error')
+        return render_template('admin_dashboard.html',
+                             total_students=0,
+                             total_results=0,
+                             total_courses=0,
+                             students=[])
+    finally:
+        if cursor:
+            cursor.close()
+        if db:
+            db.close()
+
+@app.route('/manage-results')
+def manage_results():
+    return render_template('manage_results.html')
+
+
+@app.route('/add-result', methods=['POST'])
+def add_result():
+    matric_number = request.form.get('matric_number')
+    course_name = request.form.get('course_name')
+    course_code = request.form.get('course_code')
+    credit_unit = request.form.get('credit_unit')
+    score = float(request.form.get('score'))
+    semester = request.form.get('semester')
+    level = request.form.get('level')
+    session_year = request.form.get('session')
+    is_carryover = request.form.get('is_carryover')
+
+    # Calculate grade and grade point
+    if score >= 70:
+        grade, grade_point = 'A', 5.0
+    elif score >= 60:
+        grade, grade_point = 'B', 4.0
+    elif score >= 50:
+        grade, grade_point = 'C', 3.0
+    elif score >= 45:
+        grade, grade_point = 'D', 2.0
+    elif score >= 40:
+        grade, grade_point = 'E', 1.0
+    else:
+        grade, grade_point = 'F', 0.0
+
+    db = None
+    cursor = None
+
+    try:
+        db = get_db()
+        cursor = db.cursor()
+
+        # Get student ID from matric number
+        cursor.execute('SELECT id FROM users WHERE matric_number = %s', (matric_number,))
+        student = cursor.fetchone()
+
+        if not student:
+            flash('Student with this matric number not found!', 'error')
+            return redirect(url_for('manage_results'))
+
+        user_id = student['id']
+
+        # Insert course
+        cursor.execute('''
+            INSERT INTO courses (user_id, course_name, course_code, credit_unit, semester, level, session)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        ''', (user_id, course_name, course_code, credit_unit, semester, level, session_year))
+
+        course_id = cursor.lastrowid
+
+        # Insert result
+        cursor.execute('''
+            INSERT INTO results (user_id, course_id, score, grade, grade_point, is_carryover, session)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+        ''', (user_id, course_id, score, grade, grade_point, is_carryover, session_year))
+
+        db.commit()
+        flash('Result added successfully!', 'success')
+        return redirect(url_for('manage_results'))
+
+    except Exception as e:
+        flash(f'Error adding result: {str(e)}', 'error')
+        return redirect(url_for('manage_results'))
+
+    finally:
+        if cursor:
+            cursor.close()
+        if db:
+            db.close()            
 
 if __name__ == '__main__':
     app.run(debug=True)

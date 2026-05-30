@@ -13,47 +13,47 @@
 
         <!-- SIDEBAR -->
         <aside class="sidebar">
-            <div class="sidebar__brand">
-                <h1 class="sidebar__logo">SARMVIA</h1>
-                <p class="sidebar__sub">Student Portal</p>
+            <div class="sidebar_brand">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="SARMVIA" class="navbar_logo-img">
+                <p class="sidebar_sub">Student Portal</p>
             </div>
 
-            <ul class="sidebar__menu">
-                <li class="sidebar__item sidebar__item--active">
-                    <a href="/student-dashboard" class="sidebar__link">
-                        <span class="sidebar__icon">&#9671;</span>
+            <ul class="sidebar_menu">
+                <li class="sidebar_item sidebar_item--active">
+                    <a href="/student-dashboard" class="sidebar_link">
+                        <span class="sidebar_icon">&#9671;</span>
                         Dashboard
                     </a>
                 </li>
-                <li class="sidebar__item">
-                    <a href="/my-results" class="sidebar__link">
-                        <span class="sidebar__icon">&#9776;</span>
+                <li class="sidebar_item">
+                    <a href="/my-results" class="sidebar_link">
+                        <span class="sidebar_icon">&#9776;</span>
                         My Results
                     </a>
                 </li>
-                <li class="sidebar__item">
-                    <a href="/gp-calculator" class="sidebar__link">
-                        <span class="sidebar__icon">&#9737;</span>
+                <li class="sidebar_item">
+                    <a href="/gp-calculator" class="sidebar_link">
+                        <span class="sidebar_icon">&#9737;</span>
                         GP Calculator
                     </a>
                 </li>
-                <li class="sidebar__item">
-                    <a href="/ai-prediction" class="sidebar__link">
-                        <span class="sidebar__icon">&#10022;</span>
+                <li class="sidebar_item">
+                    <a href="/ai-prediction" class="sidebar_link">
+                        <span class="sidebar_icon">&#10022;</span>
                         AI Prediction
                     </a>
                 </li>
-                <li class="sidebar__item">
-                    <a href="/verify-result" class="sidebar__link">
-                        <span class="sidebar__icon">&#10003;</span>
+                <li class="sidebar_item">
+                    <a href="/verify-result" class="sidebar_link">
+                        <span class="sidebar_icon">&#10003;</span>
                         Verify Result
                     </a>
                 </li>
             </ul>
 
-            <div class="sidebar__footer">
-                <p class="sidebar__session">2025/2026</p>
-                <a href="/logout" class="sidebar__logout">Logout</a>
+            <div class="sidebar_footer">
+                <p class="sidebar_session">2025/2026</p>
+                <a href="/logout" class="sidebar_logout">Logout</a>
             </div>
         </aside>
 
@@ -62,51 +62,51 @@
 
             <!-- TOP BAR -->
             <div class="topbar">
-                <div class="topbar__left">
-                    <h1 class="topbar__title">Dashboard</h1>
-                    <div class="topbar__underline"></div>
+                <div class="topbar_left">
+                    <h1 class="topbar_title">Dashboard</h1>
+                    <div class="topbar_underline"></div>
                 </div>
-                <div class="topbar__right">
-                    <p class="topbar__welcome">Welcome back, <strong>{{ session['full_name'] }}</strong></p>
+                <div class="topbar_right">
+                    <p class="topbar_welcome">Welcome back, <strong>{{ session['full_name'] }}</strong></p>
                 </div>
             </div>
 
             <!-- STATS -->
             <div class="stats">
-                <div class="stat__card">
-                    <p class="stat__label">CURRENT CGPA</p>
-                    <h2 class="stat__value">0.00</h2>
-                    <p class="stat__sub">Not yet calculated</p>
+                <div class="stat_card">
+                    <p class="stat_label">CURRENT CGPA</p>
+                    <h2 class="stat_value">0.00</h2>
+                    <p class="stat_sub">Not yet calculated</p>
                 </div>
-                <div class="stat__card">
-                    <p class="stat__label">CURRENT CLASS</p>
-                    <h2 class="stat__value">N/A</h2>
-                    <p class="stat__sub">No results yet</p>
+                <div class="stat_card">
+                    <p class="stat_label">CURRENT CLASS</p>
+                    <h2 class="stat_value">N/A</h2>
+                    <p class="stat_sub">No results yet</p>
                 </div>
-                <div class="stat__card">
-                    <p class="stat__label">TOTAL CREDITS</p>
-                    <h2 class="stat__value">0</h2>
-                    <p class="stat__sub">Credits earned</p>
+                <div class="stat_card">
+                    <p class="stat_label">TOTAL CREDITS</p>
+                    <h2 class="stat_value">0</h2>
+                    <p class="stat_sub">Credits earned</p>
                 </div>
-                <div class="stat__card">
-                    <p class="stat__label">SEMESTERS DONE</p>
-                    <h2 class="stat__value">0</h2>
-                    <p class="stat__sub">Out of 10</p>
+                <div class="stat_card">
+                    <p class="stat_label">SEMESTERS DONE</p>
+                    <h2 class="stat_value">0</h2>
+                    <p class="stat_sub">Out of 10</p>
                 </div>
             </div>
 
             <!-- WELCOME CARD -->
-            <div class="welcome__card">
-                <h2 class="welcome__title">Welcome to SARMVIA, {{ session['full_name'] }}!</h2>
-                <div class="welcome__underline"></div>
-                <p class="welcome__text">Your academic journey starts here. Use the sidebar to navigate through your results, calculate your GP, and get AI powered predictions about your performance.</p>
+            <div class="welcome_card">
+                <h2 class="welcome_title">Welcome to SARMVIA, {{ session['full_name'] }}!</h2>
+                <div class="welcome_underline"></div>
+                <p class="welcome_text">Your academic journey starts here. Use the sidebar to navigate through your results, calculate your GP, and get AI powered predictions about your performance.</p>
             </div>
 
             <!-- RECENT RESULTS -->
             <div class="recent">
-                <h3 class="recent__title">Recent Results</h3>
-                <div class="recent__underline"></div>
-                <p class="recent__empty">No results yet. Results will appear here once uploaded by your admin.</p>
+                <h3 class="recent_title">Recent Results</h3>
+                <div class="recent_underline"></div>
+                <p class="recent_empty">No results yet. Results will appear here once uploaded by your admin.</p>
             </div>
 
         </main>

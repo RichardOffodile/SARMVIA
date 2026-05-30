@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARMVIA - Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+<div class="dashboard">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar_brand">
+            <h1 class="sidebar_logo">SARMVIA</h1>
+            <p class="sidebar_sub">Admin Portal</p>
+        </div>
+        <ul class="sidebar_menu">
+            <li class="sidebar_item sidebar_item--active">
+                <a href="/admin-dashboard" class="sidebar_link">
+                    <span class="sidebar_icon">&#9671;</span>
+                    Dashboard
+                </a>
+            </li>
+            <li class="sidebar_item">
+                <a href="/manage-results" class="sidebar_link">
+                    <span class="sidebar_icon">&#9776;</span>
+                    Manage Results
+                </a>
+            </li>
+            <li class="sidebar_item">
+                <a href="/manage-students" class="sidebar_link">
+                    <span class="sidebar_icon">&#9737;</span>
+                    Manage Students
+                </a>
+            </li>
+            <li class="sidebar_item">
+                <a href="/verify-result" class="sidebar_link">
+                    <span class="sidebar_icon">&#10003;</span>
+                    Verify Result
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar_footer">
+            <p class="sidebar_session">2024/2025</p>
+            <a href="/logout" class="sidebar_logout">Logout</a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+        <div class="topbar">
+            <div class="topbar_left">
+                <h1 class="topbar_title">Dashboard</h1>
+                <div class="topbar_underline"></div>
+            </div>
+            <div class="topbar_right">
+                <p class="topbar_welcome">Welcome back, <strong>{{ session['full_name'] }}</strong></p>
+            </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats">
+            <div class="stat_card">
+                <p class="stat_label">TOTAL STUDENTS</p>
+                <h2 class="stat_value">{{ total_students }}</h2>
+                <p class="stat_sub">Registered students</p>
+            </div>
+            <div class="stat_card">
+                <p class="stat_label">TOTAL RESULTS</p>
+                <h2 class="stat_value">{{ total_results }}</h2>
+                <p class="stat_sub">Results uploaded</p>
+            </div>
+            <div class="stat_card">
+                <p class="stat_label">TOTAL COURSES</p>
+                <h2 class="stat_value">{{ total_courses }}</h2>
+                <p class="stat_sub">Courses registered</p>
+            </div>
+        </div>
+
+        <!-- RECENT STUDENTS -->
+        <div class="recent">
+            <h3 class="recent_title">Recent Students</h3>
+            <div class="recent_underline"></div>
+            {% if students %}
+            <table class="admin_table">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Matric Number</th>
+                        <th>Department</th>
+                        <th>Level</th>
+                        <th>Date Registered</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student.full_name }}</td>
+                        <td>{{ student.matric_number }}</td>
+                        <td>{{ student.department }}</td>
+                        <td>{{ student.level }}</td>
+                        <td>{{ student.created_at }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p class="recent_empty">No students registered yet.</p>
+            {% endif %}
+        </div>
+
+    </main>
+</div>
+</body>
+</html>
